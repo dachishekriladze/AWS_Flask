@@ -1,32 +1,32 @@
 from flask import Flask, jsonify, request
+import json
+import os
 
 app = Flask(__name__)
 
-tasks = [
-    {
-        'id': 1,
-        'title': 'Task 1',
-        'description': 'This is task 1',
-        'done': False
-    },
-    {
-        'id': 2,
-        'title': 'Task 2',
-        'description': 'This is task 2',
-        'done': False
-    }
-]
+# Define the path to the file where tasks will be stored
+TASKS_FILE = 'tasks.json'
+
+# Load tasks from file if the file exists, otherwise initialize an empty list
+if os.path.exists(TASKS_FILE):
+    with open(TASKS_FILE, 'r') as file:
+        tasks = json.load(file)
+else:
+    tasks = []
+
+
+def save_tasks():
+    with open(TASKS_FILE, 'w') as file:
+        json.dump(tasks, file, indent=4)
 
 
 @app.route('/tasks', methods=['GET'])
 def get_tasks():
-
     return jsonify({'tasks': tasks})
 
 
 @app.route('/tasks/<int:task_id>', methods=['GET'])
 def get_task(task_id):
-    """Get a single task by ID"""
     task = next((task for task in tasks if task['id'] == task_id), None)
     if task:
         return jsonify({'task': task})
@@ -36,17 +36,25 @@ def get_task(task_id):
 
 @app.route('/tasks', methods=['POST'])
 def create_task():
-    """Create a new task"""
     if not request.json or 'title' not in request.json:
         return jsonify({'message': 'Title is required'}), 400
     task = {
-        'id': tasks[-1]['id'] + 1 if tasks else 1,
+        'id': len(tasks) + 1,
         'title': request.json['title'],
         'description': request.json.get('description', ""),
         'done': False
     }
     tasks.append(task)
+    save_tasks()  # Save tasks to file
     return jsonify({'task': task}), 201
+
+
+@app.route('/tasks/<int:task_id>', methods=['DELETE'])
+def delete_task(task_id):
+    global tasks
+    tasks = [task for task in tasks if task['id'] != task_id]
+    save_tasks()  # Save tasks to file
+    return jsonify({'message': 'Task deleted successfully'})
 
 
 if __name__ == '__main__':
