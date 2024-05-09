@@ -1,27 +1,21 @@
-# Use an official Ubuntu base image
+# Use Ubuntu 20.04 as the base image
 FROM ubuntu:20.04
 
-# Update package lists and install necessary packages
-RUN apt-get update && \
-    apt-get install -y \
-    python3 \
-    python3-pip \
-    && rm -rf /var/lib/apt/lists/*
-
-# Set the working directory in the container
+# Set up the working directory inside the container
 WORKDIR /app
 
-# Copy the current directory contents into the container at /app
-COPY . /app
+# Install Python and pip
+RUN apt-get update && \
+    apt-get install -y python3 python3-pip
 
-# Install any needed dependencies specified in requirements.txt
-RUN pip3 install --no-cache-dir -r requirements.txt
+# Copy the application code into the container
+COPY . .
 
-# Define environment variable
-ENV TASKS_FILE=/app/tasks.json
+# Install Flask and other dependencies
+RUN pip3 install -r requirements.txt
 
-# Make port 5000 available to the world outside this container
+# Expose port 5000 to the outside world
 EXPOSE 5000
 
-# Run app.py when the container launches
+# Define the startup command to run the Flask application
 CMD ["python3", "app.py"]
