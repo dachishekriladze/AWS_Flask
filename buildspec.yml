@@ -5,33 +5,25 @@ phases:
     runtime-versions:
       python: 3.8
     commands:
-      - echo Installing dependencies
+      - echo "Install dependencies"
       - pip install -r requirements.txt
 
   pre_build:
     commands:
-      - echo Pre-build phase
+      - echo "Nothing to do in pre_build phase"
 
   build:
     commands:
-      - echo Build phase
-      - echo Building the Docker image
-      - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
-      - docker build -t flask-app .
-      - docker tag flask-app:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/flask-app:latest
+      - echo "Nothing to do in build phase"
 
   post_build:
     commands:
-      - echo Post-build phase
-      - echo Pushing the Docker image
-      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/flask-app:latest
+      - echo "Build Docker image"
+      - docker build -t myflaskapp .
 
 artifacts:
   files:
+    - app.py
     - tasks.json
-  discard-paths: yes
-
-env:
-  variables:
-    AWS_ACCOUNT_ID: "002366801616"
-    AWS_DEFAULT_REGION: "Stockholm"
+    - requirements.txt
+    - Dockerfile
