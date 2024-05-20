@@ -5,25 +5,16 @@ phases:
     runtime-versions:
       python: 3.8
     commands:
-      - echo "Install dependencies"
       - pip install -r requirements.txt
-
-  pre_build:
-    commands:
-      - echo "Nothing to do in pre_build phase"
-
   build:
     commands:
-      - echo "Nothing to do in build phase"
-
+      - echo Build started on `date`
+      - python -m unittest discover
   post_build:
     commands:
-      - echo "Build Docker image"
-      - docker build -t myflaskapp .
+      - echo Build completed on `date`
 
 artifacts:
   files:
-    - app.py
-    - tasks.json
-    - requirements.txt
-    - Dockerfile
+    - '**/*'
+  base-directory: '/'
