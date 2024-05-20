@@ -9,12 +9,14 @@ phases:
   build:
     commands:
       - echo Build started on `date`
-      - python -m unittest discover
   post_build:
     commands:
       - echo Build completed on `date`
-
 artifacts:
   files:
-    - '**/*'
-  base-directory: '/'
+    - app.py
+    - requirements.txt
+    - tasks.json
+    - appspec.yml
+    - scripts/**
+  discard-paths: yes
