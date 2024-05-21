@@ -18,10 +18,9 @@ def save_tasks():
         json.dump(tasks, file, indent=4)
 
 
-@app.route('/', methods=['GET'])  # Modified route to root path
-def get_tasks_with_descriptions():
-    tasks_with_descriptions = [{'task': task, 'description': task.get('description', '')} for task in tasks]
-    return jsonify({'tasks': tasks_with_descriptions})
+@app.route('/tasks', methods=['GET'])
+def get_tasks():
+    return jsonify({'tasks': tasks})
 
 
 @app.route('/tasks/<int:task_id>', methods=['GET'])
@@ -30,7 +29,7 @@ def get_task(task_id):
     if task:
         return jsonify({'task': task})
     else:
-        return jsonify({'message': 'Task not found'}), 404
+        return jsonify({'message': 'Task not found code:12'}), 404
 
 
 @app.route('/tasks', methods=['POST'])
