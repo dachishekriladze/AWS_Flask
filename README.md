@@ -1,0 +1,1 @@
+This is Flask application for CodePipeline, with requirements.txt, buildspec and appspec. It's very simple application, mostly it was made for CodePipeline, It uses Github as a source, CodeBuild and CodeDeploy with EC2.
