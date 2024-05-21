@@ -18,5 +18,4 @@ artifacts:
     - requirements.txt
     - tasks.json
     - appspec.yml
-    - scripts/**
   discard-paths: yes
