@@ -20,4 +20,5 @@ artifacts:
     - requirements.txt
     - tasks.json
     - appspec.yml
+    - start_server.sh
   discard-paths: yes
