@@ -29,7 +29,7 @@ def get_task(task_id):
     if task:
         return jsonify({'task': task})
     else:
-        return jsonify({'message': 'Task not found code:12'}), 404
+        return jsonify({'message': 'Task not found'}), 404
 
 
 @app.route('/tasks', methods=['POST'])
