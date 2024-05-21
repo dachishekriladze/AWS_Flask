@@ -4,10 +4,8 @@ import os
 
 app = Flask(__name__)
 
-# Define the path to the file where tasks will be stored
 TASKS_FILE = 'tasks.json'
 
-# Load tasks from file if the file exists, otherwise initialize an empty list
 if os.path.exists(TASKS_FILE):
     with open(TASKS_FILE, 'r') as file:
         tasks = json.load(file)
@@ -20,9 +18,10 @@ def save_tasks():
         json.dump(tasks, file, indent=4)
 
 
-@app.route('/tasks', methods=['GET'])
-def get_tasks():
-    return jsonify({'tasks': tasks})
+@app.route('/', methods=['GET'])  # Modified route to root path
+def get_tasks_with_descriptions():
+    tasks_with_descriptions = [{'task': task, 'description': task.get('description', '')} for task in tasks]
+    return jsonify({'tasks': tasks_with_descriptions})
 
 
 @app.route('/tasks/<int:task_id>', methods=['GET'])
@@ -45,7 +44,7 @@ def create_task():
         'done': False
     }
     tasks.append(task)
-    save_tasks()  # Save tasks to file
+    save_tasks()
     return jsonify({'task': task}), 201
 
 
@@ -53,7 +52,7 @@ def create_task():
 def delete_task(task_id):
     global tasks
     tasks = [task for task in tasks if task['id'] != task_id]
-    save_tasks()  # Save tasks to file
+    save_tasks()
     return jsonify({'message': 'Task deleted successfully'})
 
 
