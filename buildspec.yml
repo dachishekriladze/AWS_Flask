@@ -5,8 +5,10 @@ phases:
     runtime-versions:
       python: 3.8
     commands:
-      - sudo apt update
-      - sudo apt install -y python3-pip
+      - sudo apt upgrade
+      - sudo apt install -y python3-venv
+      - python3 -m venv myenv
+      - source myenv/bin/activate
       - pip install -r requirements.txt
   build:
     commands:
