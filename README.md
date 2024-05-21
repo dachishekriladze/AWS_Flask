@@ -12,4 +12,5 @@ Pipeline works perfectly, triggers within every push in repository and starts bu
 
 but if we change something in code and push it automatically builds and deploys for example I will correct mistake in comment which appears when there is no index 
 
+![image](https://github.com/dachishekriladze/AWS_Flask/assets/133920660/af381edd-7d6e-410d-83b6-f144a37f7ebb)
 
